@@ -1,4 +1,5 @@
-// Props, UseState, Components, UseEffect,condition rendering,routers,navlinks and links complete
+// Props, UseState, Components, UseEffect,condition rendering,routers,navlinks and links complete,List rendering,useMemo
+
 
 // React ek JavaScript library hai, framework nahi
 // React actually hota hai HTML ke andar JavaScript likhna
@@ -8,7 +9,7 @@
 //Agar koi variable banana hai to return ka andar aur agar koi function hai ya phir hooks hain to return ka bahir
 //Agar hum ternary operator use kar raha hain to wahan hum style ka tag daramayn main nhi likh sakta isi liya class ka naam dai do wahan aur phir usa style kar do apna index.css main
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import Card from "./components/Card";
 import Followers from "./components/Followers";
@@ -34,6 +35,50 @@ function App() {
   }, [count]); // count change hone par yeh effect chalega
   //yahan directly main condition main nhi likh sakti ka count===2
   const [mode, setMode] = useState(true);
+  //yahan hum list banain ga list rendering ka liya
+  const names = ["scheeza", "alishba", "fatima"];
+  const [number, setNumber] = useState(5);
+
+  //yahan hum usememo hook ko samjhain ga
+  //   Jab bhi React component re-render hota hai to uske andar ka sara code dobara run hota hai.
+  // Agar tumhare paas koi heavy / expensive calculation hai (jaise badi list filter karna, sorting, ya koi complex formula), to woh har render pe dobara run hoga → app slow ho sakti hai.
+  // useMemo is problem ko solve karta hai. Ye calculation ka result cache kar leta hai aur dobara tabhi calculate karta hai jab dependency array wali values change hoti hain.
+  //useMemo ka use hota hai values aur results ka liya 
+
+  const factorial = useMemo(() => {
+    console.log("Calculating factorial...");
+
+    // Factorial calculation function
+    const calculateFactorial = (n) => {
+      if (n < 0) {
+        alert("Number cannot be negative");
+        return 0;
+      }
+
+      if (n === 0 || n === 1) {
+        return 1;
+      }
+
+      let result = 1;
+      for (let i = 2; i <= n; i++) {
+        result *= i;
+      }
+      return result;
+    };
+
+    return calculateFactorial(number);
+  }, [number]);
+
+  const [item, setitem] = useState([
+    { name: "laptop", price: 20000 },
+    { name: "mobile", price: 2000 },
+    { name: "charger", price: 200 },
+    { name: "fan", price: 20 },
+  ]);
+  const totalprice = useMemo(() => {
+    console.log("Calculating total price...");
+    return item.reduce((sum, currentItem) => sum + currentItem.price, 0);
+  }, [item]);
 
   return (
     <>
@@ -72,6 +117,35 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+
+      {/* iss div main hum list rendering parhain ga  */}
+      <div>
+        <h2>Names list</h2>
+        <ul>
+          {names.map((name, index) => {
+            return <li key={index}>{name}</li>;
+          })}
+        </ul>
+      </div>
+
+      {/* iss div main hum usememo hook ko parhain ga  */}
+      <div>
+        <p>
+          The factorial of the {number} is : {factorial}
+        </p>
+        <button onClick={() => setNumber(number + 1)}>factorial</button>
+        <ul>
+          {item.map((items, index) => {
+            return (
+              <li key={index}>
+                {items.name}
+                {items.price}
+              </li>
+            );
+          })}
+        </ul>
+        <p>The total bill is : {totalprice}</p>
+      </div>
     </>
   );
 }
