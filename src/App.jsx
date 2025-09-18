@@ -1,6 +1,6 @@
-// Props, UseState, Components, UseEffect,condition rendering,routers,navlinks and links complete,List rendering,useMemo
+// Props, UseState, Components, UseEffect,condition rendering,routers,navlinks and links complete,List rendering,useMemo,(ReactAPI,prop-drilling,state lifting)=>yeh cheezain API wala folder main hain,(useContext hook)=>yeh wali chez mera useContext hook wala folder main hai 
 
-
+//React main sara components aur files ka naam PascalCase main hota hai 
 // React ek JavaScript library hai, framework nahi
 // React actually hota hai HTML ke andar JavaScript likhna
 // Vite ek building tool aur development server hai jo modern web projects ke liye design kiya gaya hai
